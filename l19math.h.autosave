@@ -1,0 +1,13 @@
+#ifndef L19MATH_H
+#define L19MATH_H
+
+
+class L19Math
+{
+public:
+    L19Math();
+    double calcOrientSurface();
+    
+};
+
+#endif // L19MATH_H

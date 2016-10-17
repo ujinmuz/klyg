@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/provedenie_granic.png</file>
+        <file>res/udalenie_granic2.png</file>
+        <file>res/press_calc.png</file>
+        <file>res/2d.png</file>
+        <file>res/3d.png</file>
+        <file>res/minus.png</file>
+        <file>res/plus.png</file>
+        <file>res/graf_frag1.png</file>
+        <file>res/graf_frag2.png</file>
+        <file>res/calc.png</file>
+        <file>res/grid.png</file>
+    </qresource>
+</RCC>
