@@ -15,8 +15,6 @@ int main(int argc, char *argv[])
     format.setProfile(QSurfaceFormat::OpenGLContextProfile::CompatibilityProfile);
     QSurfaceFormat::setDefaultFormat(format);
 
-    //gl->setFormat(format);
-
     w.show();
 
     return a.exec();

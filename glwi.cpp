@@ -144,17 +144,6 @@ void GLWi::paintGL()
     QPainter painter(this);
     painter.beginNativePainting();
 
-    ////
-//    QOpenGLFramebufferObjectFormat fboFormat;
-//    fboFormat.setSamples(4);
-//    fboFormat.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
-
-//    const QRect drawRect(0, 0, width(), height());
-//    const QSize drawRectSize = drawRect.size();
-
-//    QOpenGLFramebufferObject fbo(drawRectSize, fboFormat);
-//    bool fbnd = fbo.bind();
-    /////
     if (!program.bind())
         close();
     // Clear color and depth buffer
@@ -193,9 +182,6 @@ void GLWi::paintGL()
             painter.drawText(yLines[i].win_val+5,height()-5,QString::number(yLines[i].real_val,'f',lnpresY));
         }
     }
-    //QImage img = fbo.toImage();
-    //img.save("d:\\test\\or.png","PNG");
-
 }
 
 void GLWi::paintGLoffscreen(int layid, QString dir)

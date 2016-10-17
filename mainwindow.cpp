@@ -42,12 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     {  // Установка центральноговиджета
 
-
-
-
-
-
-
         stackedWidget = new QStackedWidget();
 
         stackedWidget->addWidget(openGL2D);
