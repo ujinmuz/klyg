@@ -53,7 +53,6 @@ int ContourCollection::getMinMax(double &minx, double &miny, double &maxx, doubl
     {
         Contours[0]->getMinMax(minx,miny,maxx,maxy);
     }
-
     for(int i=1;i<c;i++)
     {
         double x1,x2,y1,y2;
@@ -129,7 +128,7 @@ void ContourCollection::loadFromFile(QTextStream& in)
             QString trline = line.trimmed();
             pos2 = rx1.indexIn(trline,pos2);
             if (pos2 >-1)
-            {
+            {                
                 neednew=true;
                 QRegExp rx2("([-+]?\\d+\\.?\\d*)|([-+]?\\d*\\.\\d+)");
                 int pos3=0;
