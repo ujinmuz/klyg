@@ -110,7 +110,7 @@ void ContourCollection::loadFromFile(QTextStream& in)
         QString line = in.readLine();
         QRegExp rx("([-+]?\\d*\\.?\\d*)\\s*:\\s*([-+]?\\d*\\.?\\d*)");
         int pos=0;
-        pos = rx.indexIn(line, pos);
+        pos = rx.indexIn(line, pos);        
         if (pos>-1)
         {
             if (neednew)
@@ -121,13 +121,24 @@ void ContourCollection::loadFromFile(QTextStream& in)
                 neednew=false;
             }
             Cn->addXY(rx.cap(1).toDouble(),rx.cap(2).toDouble());
-
-
-            //qDebug()<<ptcnt1 << " - "<<ptcnt2;
         }
-        else if (line.trimmed()=="#")
+        else
         {
-            neednew=true;
+            QRegExp rx1("^#");
+            int pos2 =0;
+            QString trline = line.trimmed();
+            pos2 = rx1.indexIn(trline,pos2);
+            if (pos2 >-1)
+            {
+                neednew=true;
+                QRegExp rx2("([-+]?\\d+\\.?\\d*)|([-+]?\\d*\\.\\d+)");
+                int pos3=0;
+                pos3=rx2.indexIn(trline,pos3);
+                if (pos3>-1)
+                {
+                    Cn->setTime(rx2.cap(0).toDouble());
+                }
+            }
         }
     }
 }

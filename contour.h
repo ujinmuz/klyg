@@ -20,12 +20,15 @@ public:
     void saveToFile(QTextStream& out);
     void loadFromFile(QTextStream& in);
     void removeAt(int id);
+    double getTime();
+    void setTime(double t);
 signals:
 
 public slots:
 
 protected:
     QVector<double> vVertices;
+    double tm_stamp;
 };
 
 #endif // CONTOUR_H

@@ -3,7 +3,7 @@
 
 Contour::Contour(QObject *parent)
 {
-
+    tm_stamp = 0;
 }
 
 void Contour::addXY(double x,double y)
@@ -97,13 +97,12 @@ void Contour::saveToFile(QTextStream& out)
     {
         out << vVertices[2*i]<<":"<< vVertices[2*i+1] <<"\n";
     }
-    out << "#\n";
+    out << "#"<<getTime()<<"\n";
 }
 
 void Contour::loadFromFile(QTextStream& in)
 {
     QString line = in.readLine();
-
 }
 
 
@@ -128,4 +127,16 @@ float* Contour::fgetdata()
     itmp = vVertices.data();
     std::copy(itmp,itmp+c,otmp);
     return otmp;
+}
+
+
+
+double Contour::getTime()
+{
+    return tm_stamp;
+}
+
+void Contour::setTime(double t)
+{
+    tm_stamp = t;
 }

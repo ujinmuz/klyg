@@ -248,7 +248,7 @@ void GLWi::paintGLoffscreen(int layid, QString dir)
     }
 
 
-    img.save(dir+"\\img_"+QString::number(layid)+".png","PNG");
+    img.save(dir+"/img_"+QString::number(layid)+".png","PNG");
 }
 
 void GLWi::keyPressEvent(QKeyEvent *event)
