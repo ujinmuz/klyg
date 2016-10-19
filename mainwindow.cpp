@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     openGL2D = new GLWi(this);
     QWidget *secondPageWidget = new QWidget;
 
-    {   // Создать меню
+    {   // Создать меню программы
         QAction *m_quit = new QAction("&"+tr("Выход"), this);
         QAction *m_open = new QAction("&"+tr("Открыть"), this);
         QAction *m_save = new QAction("&"+tr("Сохранить"), this);
