@@ -1,34 +1,36 @@
 #ifndef CONTOUR_H
 #define CONTOUR_H
 
-#include <QObject>
-#include <QVector>
-#include <QTextStream>
+//#include <QObject>
+//#include <QVector>
+//#include <QTextStream>
 
-class Contour
-{
-public:
-    explicit Contour(QObject *parent = 0);
-    void addXY(double x, double y);
-    int getPointCount();
-    double* getdata();
-    float* fgetdata();
-    void removeLast();
-    int findAtXY(double x, double y, double okr);
-    void setById(int id,double x, double y);
-    int getMinMax(double &minx, double &miny, double &maxx, double &maxy);
-    void saveToFile(QTextStream& out);
-    void loadFromFile(QTextStream& in);
-    void removeAt(int id);
-    double getTime();
-    void setTime(double t);
-signals:
+#include "vector.h"
 
-public slots:
 
-protected:
-    QVector<double> vVertices;
-    double tm_stamp;
-};
+    struct Contour
+    {
+        cvector vVertices;
+        double tm_stamp;
+    };
+
+    void CreateContour(struct Contour* cnt);
+    void addXY(struct Contour* cnt,double x, double y);
+    int getPointCount(struct Contour* cnt);
+    double* getdata(struct Contour* cnt);
+    //float* fgetdata();
+    void removeLast(struct Contour* cnt);
+    int findAtXY(struct Contour* cnt,double x, double y, double okr);
+    void setById(struct Contour* cnt,int id,double x, double y);
+    int getMinMax(struct Contour* cnt,double* minx, double* miny, double* maxx, double* maxy);
+    //void saveToFile(QTextStream& out);
+    //void loadFromFile(QTextStream& in);
+    void removeAt(struct Contour* cnt,int id);
+    double getTime(struct Contour* cnt);
+    void setTime(struct Contour* cnt,double t);
+    void printOut(struct Contour* cnt);
+
+    //QVector<double> vVertices;
+
 
 #endif // CONTOUR_H
