@@ -3,7 +3,7 @@
 #include <math.h>
 #include "cdeque.h"
 #include "vector.h"
-
+#include "string.h"
 
 void ResolveByMaxwellRule(struct Contour *Cont) {
     struct l19interval v;
@@ -304,86 +304,42 @@ double frexp10(double arg, int * exp)
 }
 
 
-void test(double s[], int* n)
+void test(double* inX, double *inS, int inN, double* outX, double *outS, int* outN)
 {
     struct Contour cnt;
     CreateContour(&cnt);
-
-    addXY(&cnt,-0.161833f, 0.326151f);
-    addXY(&cnt,0.00426493f, 0.348886f);
-    addXY(&cnt,0.0641305f, 0.376182f);
-    addXY(&cnt,0.115517f, 0.42324f);
-    addXY(&cnt,0.119887, 0.435352f);
-    addXY(&cnt,0.12121f, 0.448361f);
-    addXY(&cnt,0.119318 , 0.462236);
-    addXY(&cnt,0.114307 , 0.476931);
-    addXY(&cnt,0.106539 , 0.492377);
-    addXY(&cnt,0.0966066 , 0.508492);
-    addXY(&cnt,0.0852513 , 0.52517);
-    addXY(&cnt,0.0732591 , 0.54229);
-    addXY(&cnt,0.061364 , 0.559711);
-    addXY(&cnt,0.0501748 , 0.577277);
-    addXY(&cnt,0.0401377 , 0.594817);
-    addXY(&cnt,0.0315314 , 0.612147);
-    addXY(&cnt,0.0244869 , 0.629077);
-    addXY(&cnt,0.0190202 , 0.645408);
-    addXY(&cnt,0.0150675 , 0.660941);
-    addXY(&cnt,0.0125178 , 0.675479);
-    addXY(&cnt,0.0112385 , 0.688829);
-    addXY(&cnt,0.0110939 , 0.700812);
-    addXY(&cnt,0.0119578 , 0.711259);
-    addXY(&cnt,0.0137206 , 0.720024);
-    addXY(&cnt,0.0162926 , 0.726978);
-    addXY(&cnt,0.0196055 , 0.73202);
-    addXY(&cnt,0.0236118 , 0.735076);
-    addXY(&cnt,0.0282837 , 0.7361);
-    addXY(&cnt,0.0336118 , 0.735076);
-    addXY(&cnt,0.0396055 , 0.73202);
-    addXY(&cnt,0.0462926 , 0.726978);
-    addXY(&cnt,0.0537206 , 0.720024);
-    addXY(&cnt,0.0619578 , 0.711259);
-    addXY(&cnt,0.0710939 , 0.700812);
-    addXY(&cnt,0.0812385 , 0.688829);
-    addXY(&cnt,0.0925178 , 0.675479);
-    addXY(&cnt,0.105068 , 0.660941);
-    addXY(&cnt,0.11902 , 0.645408);
-    addXY(&cnt,0.134487 , 0.629077);
-    addXY(&cnt,0.151531 , 0.612147);
-    addXY(&cnt,0.170138 , 0.594817);
-    addXY(&cnt,0.190175 , 0.577277);
-    addXY(&cnt,0.211364 , 0.559711);
-    addXY(&cnt,0.233259 , 0.54229);
-    addXY(&cnt,0.255251 , 0.52517);
-    addXY(&cnt,0.276607 , 0.508492);
-    addXY(&cnt,0.296539 , 0.492377);
-    addXY(&cnt,0.314307 , 0.476931);
-    addXY(&cnt,0.329318 , 0.462236);
-    addXY(&cnt,0.34121 , 0.448361);
-    addXY(&cnt,0.349887 , 0.435352);
-    addXY(&cnt,0.355517 , 0.42324);
-    addXY(&cnt,0.358474 , 0.412041);
-    addXY(&cnt,0.359264 , 0.401753);
-    addXY(&cnt,0.358449 , 0.392365);
-    addXY(&cnt,0.356576 , 0.383852);
-    addXY(&cnt,0.35413 , 0.376182);
-    addXY(&cnt,0.351514 , 0.369314);
-    addXY(&cnt,0.349036 , 0.363201);
-    addXY(&cnt,0.346916 , 0.357795);
-    addXY(&cnt,0.345298 , 0.353041);
-    addXY(&cnt,0.344265 , 0.348886);
-    addXY(&cnt,0.343852 , 0.345276);
-    addXY(&cnt,0.344061 , 0.342157);
-    addXY(&cnt,0.344868 , 0.339479);
-    addXY(&cnt,0.346236 , 0.337191);
-    addXY(&cnt,0.348118 , 0.335249);
+    for (int i=0; i<inN;i++)
+    {
+        addXY(&cnt,inX[i], inS[i]);
+    }
 
     ResolveByMaxwellRule(&cnt);
 
-    *n=cnt.vVertices.count;
-    s=cnt.vVertices.data;
+    *outN=cnt.vVertices.count/2;
+    for (int i=0; i<*outN-1;i++)
+    {
+        outX[i]=cnt.vVertices.data[2*i];
+        outS[i]=cnt.vVertices.data[2*i+1];
+    }
+    //memcpy(s, cnt.vVertices.data, cnt.vVertices.size);
+    //s=cnt.vVertices.data;
 }
 
+void mat_mult( double *A, double *B, double *C, int I, int J, int K )
+{
+    int i, j, k;
+    double t;
 
+    for( i = 0; i < I; i++ ) {
+        for( k = 0; k < K; k++ ) {
+            t = 0.0;
+            for( j = 0; j < J; j++ ) {
+                t += A[i*J+j] * B[j*K+k];
+            }
+            C[i*K+k] = t;
+        }
+    }
+}
 int main(int argc, char *argv[])
 {
     struct Contour cnt;

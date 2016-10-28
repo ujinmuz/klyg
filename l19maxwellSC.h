@@ -19,7 +19,8 @@
      double OAreaTr(double x1, double y1, double x2, double y2, double x3, double y3);
      bool PointIsBetween(double x1, double x2, double x);
      double frexp10(double arg, int * exp);
-     void test(double* s, int* n);
+     void test(double* inX, double *inS, int inN, double* outX, double *outS, int* outN);
+     void mat_mult( double *A, double *B, double *C, int I, int J, int K );
 
 
 #endif // L19MAXWELL_H
