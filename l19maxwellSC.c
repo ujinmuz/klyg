@@ -5,6 +5,96 @@
 #include "vector.h"
 #include "string.h"
 
+
+ALGEB M_DECL MySumElems( MKernelVector kv, ALGEB *args )
+{
+    M_INT argc, n, i;
+    ALGEB rt;
+    FLOAT64 val, *data;
+    RTableSettings rts;
+    argc = MapleNumArgs(kv,(ALGEB)args);
+    if( argc != 1 ) {
+        MapleRaiseError(kv,"one argument expected");
+        return( NULL );
+    }
+    if( !IsMapleRTable(kv,args[1]) ) {
+        MapleRaiseError(kv,"rtable expected for parameter 1");
+        return( NULL );
+    }
+    rt = args[1];
+    RTableGetSettings(kv,&rts,&rt);
+    if( rts.data_type != RTABLE_FLOAT64 ) {
+        MapleRaiseError(kv,"float[8] rtable expected for parameter 1");
+        return( NULL );
+    }
+    data = (FLOAT64*)RTableDataBlock(kv,rt);
+    n = RTableNumElements(kv,rt);
+    for( val=0,i=0; i<n; ++i ) {
+        val += data[i];
+    }
+    return( ToMapleFloat(kv,val) );
+}
+
+
+ALGEB s0m( MKernelVector kv, ALGEB args ) {
+    //double* inX, double *inS
+    ALGEB inX, inS;
+    RTableSettings settings;
+    int count = 100;
+
+
+    M_INT bounds[2];
+
+    bounds[0] = 1;
+    bounds[1] = count;
+
+
+    inX = args[1];
+
+    FLOAT64* elems;
+
+
+    RTableGetSettings(kv,&settings,inX);
+/*
+    if( settings.data_type != RTABLE_FLOAT64 ) {
+        MapleRaiseError(kv,"float[8] rtable expected for parameter 1");
+        return( NULL );
+    }
+*/
+
+/*
+    if( settings.data_type != RTABLE_FLOAT64
+        || settings.storage != RTABLE_RECT
+        || !IsMapleNULL(kv,settings.index_functions) )
+    {
+
+        settings.data_type = RTABLE_FLOAT64;
+        settings.storage = RTABLE_RECT;
+        settings.index_functions = ToMapleNULL(kv);
+        settings.foreign = FALSE;
+        inX = RTableCopy(kv,&settings,inX);
+    }
+*/
+
+    elems = (FLOAT64*)RTableDataBlock(kv,inX);
+
+    RTableGetDefaults(kv,&settings);
+    settings.data_type = RTABLE_FLOAT64;
+    settings.subtype = RTABLE_ARRAY;
+    settings.num_dimensions = 1;
+    bounds[0] = 1;
+    bounds[1] = count;
+
+    ALGEB result = RTableCreate(kv,&settings,NULL,bounds);
+    FLOAT64* result_elems = (FLOAT64*)RTableDataBlock(kv,result);
+
+    result_elems[1]=1.0f;
+
+    return result;
+
+
+}
+
 void ResolveByMaxwellRule(struct Contour *Cont) {
     struct l19interval v;
     bool solved;

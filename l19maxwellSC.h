@@ -2,6 +2,7 @@
 #define L19MAXWELL_H
 
 #include <stdbool.h>
+#include "maplec.h"
 
     struct l19interval
     {
@@ -21,6 +22,8 @@
      double frexp10(double arg, int * exp);
      void test(double* inX, double *inS, int inN, double* outX, double *outS, int* outN);
      void mat_mult( double *A, double *B, double *C, int I, int J, int K );
+     ALGEB s0m( MKernelVector kv, ALGEB args );
+     ALGEB M_DECL MySumElems( MKernelVector kv, ALGEB *args );
 
 
 #endif // L19MAXWELL_H
