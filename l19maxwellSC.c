@@ -4,6 +4,7 @@
 #include "cdeque.h"
 #include "vector.h"
 #include "string.h"
+#include "mpltable.h"
 
 
 ALGEB M_DECL MySumElems( MKernelVector kv, ALGEB *args )
@@ -40,18 +41,17 @@ ALGEB s0m( MKernelVector kv, ALGEB args ) {
     //double* inX, double *inS
     ALGEB inX, inS;
     RTableSettings settings;
-    int count = 100;
-
-
-    M_INT bounds[2];
-
-    bounds[0] = 1;
-    bounds[1] = count;
-
 
     inX = args[1];
+    inS = args[2];
 
-    FLOAT64* elems;
+    int inN = MapleToM_INT(kv,args[3]);
+
+
+
+
+    FLOAT64* inXelems;
+    FLOAT64* inSelems;
 
 
     RTableGetSettings(kv,&settings,inX);
@@ -76,21 +76,58 @@ ALGEB s0m( MKernelVector kv, ALGEB args ) {
     }
 */
 
-    elems = (FLOAT64*)RTableDataBlock(kv,inX);
+    inXelems = (FLOAT64*)RTableDataBlock(kv,inX);
+    inSelems = (FLOAT64*)RTableDataBlock(kv,inS);
+
+
+    struct Contour cnt;
+    CreateContour(&cnt);
+    for (int i=0; i<inN;i++)
+    {
+        addXY(&cnt,inXelems[i], inSelems[i]);
+    }
+
+    ResolveByMaxwellRule(&cnt);
+
+    int outN=cnt.vVertices.count/2;
+
+    M_INT bounds[4];
 
     RTableGetDefaults(kv,&settings);
     settings.data_type = RTABLE_FLOAT64;
     settings.subtype = RTABLE_ARRAY;
-    settings.num_dimensions = 1;
+    settings.num_dimensions = 2;
+    settings.order=RTABLE_C;
+
     bounds[0] = 1;
-    bounds[1] = count;
+    bounds[1] = outN;
+    bounds[2] = 1;
+    bounds[3] = 2;
 
-    ALGEB result = RTableCreate(kv,&settings,NULL,bounds);
-    FLOAT64* result_elems = (FLOAT64*)RTableDataBlock(kv,result);
 
-    result_elems[1]=1.0f;
+    //ALGEB xOut = RTableCreate(kv,&settings,NULL,bounds);
+    //ALGEB sOut = RTableCreate(kv,&settings,NULL,bounds);
 
-    return result;
+    ALGEB Out = RTableCreate(kv,&settings,NULL,bounds);
+
+
+
+    //FLOAT64* outXelems = (FLOAT64*)RTableDataBlock(kv,xOut);
+    //FLOAT64* outSelems = (FLOAT64*)RTableDataBlock(kv,sOut);
+
+    FLOAT64* outElems =  (FLOAT64*)RTableDataBlock(kv,Out);
+
+    for (int i=0; i<outN-1;i++)
+    {
+        //outXelems[i]=cnt.vVertices.data[2*i];
+        //outSelems[i]=cnt.vVertices.data[2*i+1];
+
+        outElems[2*i]=cnt.vVertices.data[2*i];
+        outElems[2*i+1]=cnt.vVertices.data[2*i+1];
+
+    }
+
+    return Out;
 
 
 }
